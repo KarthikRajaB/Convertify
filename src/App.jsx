@@ -11,10 +11,15 @@ import FileDownload from "js-file-download";
 
 const App = () => {
   const [jsonData, setJsonData] = useState("");
+  const [file, setFile] = useState(null);
   const [format, setFormat] = useState("");
 
   const handleJsonDataChange = (event) => {
     setJsonData(event.target.value);
+  };
+
+  const handleFileChange = (event) => {
+    setFile(event.target.files[0]);
   };
 
   const handleFormatChange = (event) => {
@@ -24,21 +29,27 @@ const App = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:5000/convert",
-        {
-          data: jsonData,
-          format: format,
+      const formData = new FormData();
+      if (file) {
+        formData.append("file", file);
+      } else {
+        formData.append("data", jsonData);
+      }
+      formData.append("format", format);
+
+      const response = await axios.post("http://localhost:5000/convert", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
         },
-        { responseType: "blob" }
-      );
+        responseType: "blob",
+      });
 
       FileDownload(response.data, `converted_data.${format}`);
     } catch (error) {
       if (error.response.status === 429) {
         alert("Too Many Requests. Please try again later");
       } else {
-        alert("Invalid Json!");
+        alert("Invalid Data!");
         console.error("Error converting data:", error);
       }
     }
@@ -47,7 +58,7 @@ const App = () => {
   return (
     <Container>
       <Typography variant="h4" gutterBottom>
-        JSON Data Converter
+        Data Converter
       </Typography>
       <form onSubmit={handleSubmit}>
         <TextField
@@ -59,6 +70,13 @@ const App = () => {
           value={jsonData}
           onChange={handleJsonDataChange}
           margin="normal"
+          disabled={file !== null}
+        />
+        <input
+          type="file"
+          accept=".json,.xml,.yaml,.csv,.xlsx"
+          onChange={handleFileChange}
+          style={{ display: "block", margin: "20px 0" }}
         />
         <TextField
           select

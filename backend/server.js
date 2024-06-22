@@ -1,20 +1,21 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const multer = require("multer");
 const { Parser } = require("json2csv");
 const { toXML } = require("jstoxml");
 const yaml = require("js-yaml");
 const PDFDocument = require("pdfkit");
 const ExcelJS = require("exceljs");
 const { createCanvas, loadImage, registerFont } = require("canvas");
-const axios = require("axios");
 const cors = require("cors");
 const rateLimit = require("express-rate-limit");
+const fs = require("fs");
 
 const cache = new Map();
 const app = express();
 const PORT = 5000;
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, //15 mins
+  windowMs: 15 * 60 * 1000, // 15 mins
   limit: 15,
   message:
     "You have reached the max quota of 5 requests. Please wait for some time!",
@@ -24,8 +25,28 @@ app.use(cors()); // Use cors middleware
 app.use(bodyParser.json());
 app.use(limiter);
 
-app.post("/convert", async (req, res) => {
-  const { data, format } = req.body;
+const upload = multer({ dest: "uploads/" });
+
+app.post("/convert", upload.single("file"), async (req, res) => {
+  let { data, format } = req.body;
+  const file = req.file;
+
+  if (file) {
+    const fileContent = fs.readFileSync(file.path, "utf8");
+    const ext = file.originalname.split('.').pop().toLowerCase();
+    if (ext === 'json') {
+      data = fileContent;
+    } else if (ext === 'xml') {
+      // Add code to convert XML to JSON if needed
+    } else if (ext === 'yaml' || ext === 'yml') {
+      // Add code to convert YAML to JSON if needed
+    } else if (ext === 'csv') {
+      // Add code to convert CSV to JSON if needed
+    } else if (ext === 'xlsx') {
+      // Add code to convert Excel to JSON if needed
+    }
+  }
+
   const cacheKey = `${data}-${format}`;
 
   if (cache.has(cacheKey)) {
@@ -106,20 +127,6 @@ app.post("/convert", async (req, res) => {
       }
       return;
 
-    /**
-     *
-     *
-     *
-     *Under Process
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     */
     case "png":
       try {
         // Create a canvas instance
@@ -152,6 +159,11 @@ app.post("/convert", async (req, res) => {
 
   cache.set(cacheKey, result);
   res.send(result);
+
+  // Cleanup: remove the uploaded file
+  if (file) {
+    fs.unlinkSync(file.path);
+  }
 });
 
 app.listen(PORT, () => {
