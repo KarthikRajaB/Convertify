@@ -10,32 +10,55 @@ import axios from "axios";
 import FileDownload from "js-file-download";
 
 const App = () => {
-  const [jsonData, setJsonData] = useState("");
-  const [file, setFile] = useState(null);
-  const [format, setFormat] = useState("");
+  const [inputData, setInputData] = useState("");
+  const [inputFile, setInputFile] = useState(null);
+  const [inputFormat, setInputFormat] = useState("");
+  const [outputFormat, setOutputFormat] = useState("");
+  const [availableFormats, setAvailableFormats] = useState([
+    "csv",
+    "xml",
+    "yaml",
+    "pdf",
+    "xlsx",
+    "png",
+  ]);
 
-  const handleJsonDataChange = (event) => {
-    setJsonData(event.target.value);
+  const handleInputDataChange = (event) => {
+    setInputData(event.target.value);
+    setInputFile(null);
+    setInputFormat("json");
+    setAvailableFormats(["csv", "xml", "yaml", "pdf", "xlsx", "png"]);
   };
 
   const handleFileChange = (event) => {
-    setFile(event.target.files[0]);
+    const file = event.target.files[0];
+    if (file) {
+      const fileExtension = file.name.split(".").pop().toLowerCase();
+      setInputFile(file);
+      setInputData("");
+      setInputFormat(fileExtension);
+      const formats = ["csv", "xml", "yaml", "pdf", "xlsx", "png"].filter(
+        (fmt) => fmt !== fileExtension
+      );
+      setAvailableFormats(formats);
+    }
   };
 
-  const handleFormatChange = (event) => {
-    setFormat(event.target.value);
+  const handleOutputFormatChange = (event) => {
+    setOutputFormat(event.target.value);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       const formData = new FormData();
-      if (file) {
-        formData.append("file", file);
+      if (inputFile) {
+        formData.append("file", inputFile);
       } else {
-        formData.append("data", jsonData);
+        formData.append("data", inputData);
+        formData.append("inputFormat", inputFormat);
       }
-      formData.append("format", format);
+      formData.append("outputFormat", outputFormat);
 
       const response = await axios.post("http://localhost:5000/convert", formData, {
         headers: {
@@ -44,7 +67,7 @@ const App = () => {
         responseType: "blob",
       });
 
-      FileDownload(response.data, `converted_data.${format}`);
+      FileDownload(response.data, `converted_data.${outputFormat}`);
     } catch (error) {
       if (error.response.status === 429) {
         alert("Too Many Requests. Please try again later");
@@ -62,15 +85,15 @@ const App = () => {
       </Typography>
       <form onSubmit={handleSubmit}>
         <TextField
-          label="JSON Data"
+          label="Input Data"
           multiline
           rows={6}
           variant="outlined"
           fullWidth
-          value={jsonData}
-          onChange={handleJsonDataChange}
+          value={inputData}
+          onChange={handleInputDataChange}
           margin="normal"
-          disabled={file !== null}
+          disabled={inputFile !== null}
         />
         <input
           type="file"
@@ -81,18 +104,17 @@ const App = () => {
         <TextField
           select
           label="Output Format"
-          value={format}
-          onChange={handleFormatChange}
+          value={outputFormat}
+          onChange={handleOutputFormatChange}
           variant="outlined"
           fullWidth
           margin="normal"
         >
-          <MenuItem value="csv">CSV</MenuItem>
-          <MenuItem value="xml">XML</MenuItem>
-          <MenuItem value="yaml">YAML</MenuItem>
-          <MenuItem value="pdf">PDF</MenuItem>
-          <MenuItem value="xlsx">Excel</MenuItem>
-          <MenuItem value="png">PNG</MenuItem>
+          {availableFormats.map((fmt) => (
+            <MenuItem key={fmt} value={fmt}>
+              {fmt.toUpperCase()}
+            </MenuItem>
+          ))}
         </TextField>
         <Button variant="contained" color="primary" type="submit" fullWidth>
           Convert

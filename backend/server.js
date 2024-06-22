@@ -28,41 +28,61 @@ app.use(limiter);
 const upload = multer({ dest: "uploads/" });
 
 app.post("/convert", upload.single("file"), async (req, res) => {
-  let { data, format } = req.body;
+  const { data, inputFormat, outputFormat } = req.body;
   const file = req.file;
+
+  let jsonData;
 
   if (file) {
     const fileContent = fs.readFileSync(file.path, "utf8");
     const ext = file.originalname.split('.').pop().toLowerCase();
-    if (ext === 'json') {
-      data = fileContent;
-    } else if (ext === 'xml') {
-      // Add code to convert XML to JSON if needed
-    } else if (ext === 'yaml' || ext === 'yml') {
-      // Add code to convert YAML to JSON if needed
-    } else if (ext === 'csv') {
-      // Add code to convert CSV to JSON if needed
-    } else if (ext === 'xlsx') {
-      // Add code to convert Excel to JSON if needed
+    try {
+      switch (ext) {
+        case 'json':
+          jsonData = JSON.parse(fileContent);
+          break;
+        case 'xml':
+          const xml2js = require('xml2js');
+          const parser = new xml2js.Parser();
+          jsonData = await parser.parseStringPromise(fileContent);
+          break;
+        case 'yaml':
+        case 'yml':
+          jsonData = yaml.load(fileContent);
+          break;
+        case 'csv':
+          const csv = require('csvtojson');
+          jsonData = await csv().fromString(fileContent);
+          break;
+        case 'xlsx':
+          const workbook = new ExcelJS.Workbook();
+          await workbook.xlsx.load(fileContent);
+          const worksheet = workbook.worksheets[0];
+          jsonData = worksheet.getSheetValues().slice(1);
+          break;
+        default:
+          return res.status(400).send("Unsupported file format");
+      }
+    } catch (error) {
+      return res.status(400).send(`Error processing ${ext} file`);
+    }
+  } else {
+    try {
+      jsonData = JSON.parse(data);
+    } catch (error) {
+      return res.status(400).send("Invalid JSON data");
     }
   }
 
-  const cacheKey = `${data}-${format}`;
+  const cacheKey = `${JSON.stringify(jsonData)}-${outputFormat}`;
 
   if (cache.has(cacheKey)) {
     console.log("Using Cache for optimization");
     return res.send(cache.get(cacheKey));
   }
 
-  let jsonData;
-  try {
-    jsonData = JSON.parse(data);
-  } catch (error) {
-    return res.status(400).send("Invalid JSON data");
-  }
-
   let result;
-  switch (format) {
+  switch (outputFormat) {
     case "csv":
       try {
         const parser = new Parser();
