@@ -18,6 +18,7 @@ import { Brightness4, Brightness7, Delete } from "@mui/icons-material";
 import axios from "axios";
 import FileDownload from "js-file-download";
 import { styled } from "@mui/material/styles";
+import yaml from "js-yaml";
 
 const Input = styled("input")({
   display: "none",
@@ -28,23 +29,54 @@ const App = () => {
   const [inputText, setInputText] = useState("");
   const [inputFormat, setInputFormat] = useState("");
   const [outputFormat, setOutputFormat] = useState("");
+  const [detectedFormat, setDetectedFormat] = useState("");
   const [darkMode, setDarkMode] = useState(false);
 
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
-    setInputFormat(event.target.files[0].name.split('.').pop().toLowerCase());
+    setInputFormat(event.target.files[0].name.split(".").pop().toLowerCase());
     setInputText(""); // Clear text input when file is uploaded
+    setDetectedFormat(""); // Clear detected format when file is uploaded
   };
 
   const handleRemoveFile = () => {
     setFile(null);
     setInputFormat("");
+    setDetectedFormat("");
   };
 
   const handleTextChange = (event) => {
-    setInputText(event.target.value);
+    const text = event.target.value;
+    setInputText(text);
     setFile(null); // Clear file input when text is entered
-    setInputFormat("json"); // Default to JSON for text input
+    setDetectedFormat(detectTextFormat(text)); // Detect and set input format
+  };
+
+  const detectTextFormat = (text) => {
+    try {
+      JSON.parse(text);
+      setInputFormat("json");
+      return "JSON";
+    } catch (e1) {
+      try {
+        if (text.trim().startsWith("<") && text.trim().endsWith(">")) {
+          new DOMParser().parseFromString(text, "application/xml");
+          setInputFormat("xml");
+          return "XML";
+        } else {
+          throw new Error("Not XML");
+        }
+      } catch (e2) {
+        try {
+          yaml.load(text);
+          setInputFormat("yaml");
+          return "YAML";
+        } catch (e3) {
+          setInputFormat("");
+          return "Unsupported format";
+        }
+      }
+    }
   };
 
   const handleOutputFormatChange = (event) => {
@@ -83,7 +115,7 @@ const App = () => {
   };
 
   const availableFormats = {
-    json: ["csv", "xml", "yaml", "xlsx", "pdf"],
+    json: ["csv", "xml", "yaml", "xlsx", "pdf", "png"],
     csv: ["json", "xml", "yaml", "xlsx"],
     xml: ["json", "yaml", "csv", "pdf", "xlsx"],
     yaml: ["json", "xml", "csv", "pdf", "xlsx"],
@@ -125,7 +157,7 @@ const App = () => {
               </Button>
             </label>
             {file && (
-              <Typography variant="body1" style={{ marginTop: 16, display: 'flex', alignItems: 'center' }}>
+              <Typography variant="body1" style={{ marginTop: 16, display: "flex", alignItems: "center" }}>
                 File: {file.name}
                 <IconButton aria-label="delete" onClick={handleRemoveFile} style={{ marginLeft: 8 }}>
                   <Delete />
@@ -135,6 +167,11 @@ const App = () => {
             <Typography variant="body1" style={{ marginTop: 16 }}>
               OR
             </Typography>
+            {detectedFormat && (
+              <Typography variant="body2" style={{ marginTop: 8, color: "grey" }}>
+                Detected Format: {detectedFormat}
+              </Typography>
+            )}
             <TextField
               label="Input Data"
               multiline
@@ -154,11 +191,12 @@ const App = () => {
               fullWidth
               margin="normal"
             >
-              {availableFormats[inputFormat] && availableFormats[inputFormat].map((format) => (
-                <MenuItem key={format} value={format}>
-                  {format.toUpperCase()}
-                </MenuItem>
-              ))}
+              {availableFormats[inputFormat] &&
+                availableFormats[inputFormat].map((format) => (
+                  <MenuItem key={format} value={format}>
+                    {format.toUpperCase()}
+                  </MenuItem>
+                ))}
             </TextField>
             <Button variant="contained" color="primary" type="submit" fullWidth>
               Convert

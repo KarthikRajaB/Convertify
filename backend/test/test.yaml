@@ -1,0 +1,55 @@
+# This is a random configuration file
+
+logLevel: DEBUG  # Verbosity level for logging
+
+server:
+  host: 10.0.1.10  # Server IP address
+  port: 8080        # Server port number
+  timeout: 30s      # Connection timeout
+
+database:
+  driver: mysql     # Database driver
+  host: localhost   # Database server hostname
+  port: 3306        # Database server port
+  user: root        # Database username
+  password: secret  # Database password (not recommended for production!)
+  name: my_database  # Database name
+
+services:
+  - name: api-gateway  # Service name
+    enabled: true      # Whether the service is enabled
+    image: my-image:latest  # Docker image for the service
+    ports:
+      - 80:8080        # Internal port mapping (container:host)
+      - 443:4430       # Internal port mapping (container:host)
+    environment:
+      API_KEY: very_secret_key  # Environment variable for the service
+
+  - name: worker  # Service name
+    enabled: false     # Whether the service is enabled
+    image: worker:latest  # Docker image for the service
+    restart: unless-stopped  # Restart policy for the service
+    volumes:
+      - ./data:/app/data  # Mount local directory to container volume
+
+cache:
+  redis:
+    host: redis-server  # Redis server hostname
+    port: 6379         # Redis server port
+    ttl: 3600           # Default cache time (seconds)
+
+monitoring:
+  enabled: true  # Enable monitoring
+  url: http://localhost:9090  # Monitoring endpoint URL
+
+# Additional random configuration options
+random_option1: true
+random_option2: 123.456
+random_list:
+  - item1
+  - item2
+  - 3
+random_map:
+  key1: value1
+  key2:
+    nested_key: nested_value

@@ -1,0 +1,227 @@
+[
+  {
+    "_id": "6676647815cd86bf57eb8c11",
+    "index": 0,
+    "guid": "a7f57aba-c3ea-42a0-984b-6ff428b08169",
+    "isActive": true,
+    "balance": "$1,923.80",
+    "picture": "http://placehold.it/32x32",
+    "age": 27,
+    "eyeColor": "green",
+    "name": "Alexis Mccoy",
+    "gender": "female",
+    "company": "XERONK",
+    "email": "alexismccoy@xeronk.com",
+    "phone": "+1 (971) 487-2088",
+    "address": "228 Madeline Court, Lupton, North Dakota, 1689",
+    "about": "Veniam incididunt ex irure exercitation ullamco enim labore in amet tempor. Ut cupidatat cillum ipsum sunt. Laborum culpa sunt irure Lorem aliquip labore mollit consectetur. Sunt magna esse est consequat aliquip ipsum deserunt deserunt proident consectetur ex et officia nisi.\r\n",
+    "registered": "2014-06-30T05:05:50 -06:-30",
+    "latitude": -4.108463,
+    "longitude": -170.504662,
+    "tags": [
+      "cupidatat",
+      "laborum",
+      "mollit",
+      "aute",
+      "magna",
+      "ullamco",
+      "irure"
+    ],
+    "friends": [
+      {
+        "id": 0,
+        "name": "Leila Fleming"
+      },
+      {
+        "id": 1,
+        "name": "Gamble Hale"
+      },
+      {
+        "id": 2,
+        "name": "Ann Stevens"
+      }
+    ],
+    "greeting": "Hello, Alexis Mccoy! You have 1 unread messages.",
+    "favoriteFruit": "strawberry"
+  },
+  {
+    "_id": "6676647874c54eb774e39556",
+    "index": 1,
+    "guid": "2efaf410-0068-46ed-b7e8-b599bef5dcc6",
+    "isActive": false,
+    "balance": "$2,728.03",
+    "picture": "http://placehold.it/32x32",
+    "age": 26,
+    "eyeColor": "brown",
+    "name": "Nelda Stein",
+    "gender": "female",
+    "company": "AVENETRO",
+    "email": "neldastein@avenetro.com",
+    "phone": "+1 (967) 481-2849",
+    "address": "337 Battery Avenue, Emerald, Idaho, 3161",
+    "about": "Sit est nostrud non id consectetur do ea esse mollit. Occaecat cupidatat mollit veniam eu nulla ullamco pariatur consectetur. Mollit non proident veniam laboris nulla. Fugiat anim non ad incididunt cillum sit culpa minim ullamco anim aliquip.\r\n",
+    "registered": "2022-12-06T12:37:03 -06:-30",
+    "latitude": -30.907278,
+    "longitude": 47.665823,
+    "tags": [
+      "Lorem",
+      "duis",
+      "non",
+      "eu",
+      "nisi",
+      "est",
+      "nisi"
+    ],
+    "friends": [
+      {
+        "id": 0,
+        "name": "Ora Hughes"
+      },
+      {
+        "id": 1,
+        "name": "Pollard Roth"
+      },
+      {
+        "id": 2,
+        "name": "Reeves Anthony"
+      }
+    ],
+    "greeting": "Hello, Nelda Stein! You have 4 unread messages.",
+    "favoriteFruit": "banana"
+  },
+  {
+    "_id": "667664785e2aae5426519974",
+    "index": 2,
+    "guid": "8e778f5d-7bd9-482f-82fb-fde34fab1dcc",
+    "isActive": false,
+    "balance": "$2,784.75",
+    "picture": "http://placehold.it/32x32",
+    "age": 23,
+    "eyeColor": "green",
+    "name": "Klein Rollins",
+    "gender": "male",
+    "company": "SENTIA",
+    "email": "kleinrollins@sentia.com",
+    "phone": "+1 (962) 547-2451",
+    "address": "986 Jerome Avenue, Dellview, District Of Columbia, 101",
+    "about": "Deserunt laborum adipisicing deserunt in pariatur laborum pariatur mollit cupidatat proident officia quis eiusmod. Elit id esse sit reprehenderit deserunt elit enim reprehenderit sint do excepteur incididunt sunt. Ad sit aliqua est enim. Proident consectetur dolor cupidatat eu sint anim. Magna aute ut magna nostrud officia nostrud do ut. Eiusmod fugiat ullamco ipsum non. Excepteur do consectetur veniam nisi qui sunt.\r\n",
+    "registered": "2024-04-30T08:55:07 -06:-30",
+    "latitude": 34.825022,
+    "longitude": -105.866599,
+    "tags": [
+      "consectetur",
+      "sunt",
+      "laborum",
+      "exercitation",
+      "ea",
+      "nisi",
+      "culpa"
+    ],
+    "friends": [
+      {
+        "id": 0,
+        "name": "Tia Wolf"
+      },
+      {
+        "id": 1,
+        "name": "Aida Munoz"
+      },
+      {
+        "id": 2,
+        "name": "Rhea Mccullough"
+      }
+    ],
+    "greeting": "Hello, Klein Rollins! You have 7 unread messages.",
+    "favoriteFruit": "banana"
+  },
+  {
+    "_id": "66766478a03c849db1170b22",
+    "index": 3,
+    "guid": "b9703145-313c-4772-bbd8-15984ecd04c2",
+    "isActive": true,
+    "balance": "$3,548.71",
+    "picture": "http://placehold.it/32x32",
+    "age": 23,
+    "eyeColor": "blue",
+    "name": "Lott Mejia",
+    "gender": "male",
+    "company": "ORBAXTER",
+    "email": "lottmejia@orbaxter.com",
+    "phone": "+1 (882) 575-3767",
+    "address": "916 Rutherford Place, Bedias, Guam, 4371",
+    "about": "Fugiat pariatur incididunt duis labore aute commodo excepteur do veniam. Sint in id dolor magna voluptate sunt. Labore quis nisi exercitation ipsum elit laborum pariatur quis cupidatat. Ullamco laborum dolore amet sunt cupidatat cillum officia nulla irure duis. Laboris adipisicing non ea adipisicing. Velit duis qui culpa esse veniam consectetur enim nostrud laboris nostrud deserunt.\r\n",
+    "registered": "2022-07-29T09:03:50 -06:-30",
+    "latitude": -6.917899,
+    "longitude": 115.306555,
+    "tags": [
+      "id",
+      "pariatur",
+      "anim",
+      "amet",
+      "culpa",
+      "duis",
+      "incididunt"
+    ],
+    "friends": [
+      {
+        "id": 0,
+        "name": "Rhonda Park"
+      },
+      {
+        "id": 1,
+        "name": "Jeanie Trevino"
+      },
+      {
+        "id": 2,
+        "name": "Kemp Beck"
+      }
+    ],
+    "greeting": "Hello, Lott Mejia! You have 2 unread messages.",
+    "favoriteFruit": "strawberry"
+  },
+  {
+    "_id": "66766478eaf9002a1e42b734",
+    "index": 4,
+    "guid": "ac7deb2e-8c5b-4ddf-8f3a-4e5779a63513",
+    "isActive": true,
+    "balance": "$2,847.26",
+    "picture": "http://placehold.it/32x32",
+    "age": 32,
+    "eyeColor": "brown",
+    "name": "Virgie Acosta",
+    "gender": "female",
+    "company": "BIOSPAN",
+    "email": "virgieacosta@biospan.com",
+    "phone": "+1 (968) 592-3064",
+    "address": "174 Joralemon Street, Faxon, Alabama, 5745",
+    "about": "Proident proident minim quis esse ea ex officia ipsum consequat nisi non aute eiusmod adipisicing. Magna do est nostrud elit occaecat elit exercitation mollit exercitation. Reprehenderit ullamco dolor nostrud labore exercitation minim aliquip mollit laboris qui. Ipsum laborum officia exercitation occaecat aute est sint ea commodo duis dolor culpa Lorem. Reprehenderit aute cupidatat quis tempor. Velit laboris commodo et duis culpa enim.\r\n",
+    "registered": "2017-07-31T11:59:12 -06:-30",
+    "latitude": 74.906693,
+    "longitude": -94.295161,
+    "tags": [
+      "consectetur",
+      "qui",
+      "cillum",
+      "pariatur",
+      "esse",
+      "ullamco",
+      "dolore"
+    ],
+    "friends": [
+      {
+        "id": 0,
+        "name": "Claudette Wilkinson"
+      },
+      {
+        "id": 1,
+        "name": "Brock Garza"
+      },
+      {
+        "id": 2,
+        "name": "Hillary Alston"
+      }
+    ],
+    "greeting": "Hello, Virgie Acosta! You have 2 unread messages.",
+    "favoriteFruit": "strawberry"
+  }
+]
